@@ -1,4 +1,4 @@
-# DevTab - Developer New Tab Dashboard
+# DevTab - Developer Chrome Dashboard
 
 A beautiful, minimal new tab Chrome extension for developers. Display your GitHub contributions, use AI-powered search, manage quick links, and track focus time with a built-in Pomodoro timer.
 
