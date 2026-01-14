@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0d1117">
+  <link rel="icon" type="image/png" sizes="48x48" href="icons/icon48.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="icons/icon16.png">
+  <title>DevTab</title>
+  <link rel="icon" type="image/png" sizes="48x48" href="icons/icon48.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="icons/icon16.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600&family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&family=Fira+Code:wght@300;400;500;600&family=IBM+Plex+Mono:wght@300;400;500;600&family=Source+Code+Pro:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- Background Layer -->
+  <div class="background-layer" id="background-layer">
+    <div class="background-image" id="background-image"></div>
+    <div class="background-overlay" id="background-overlay"></div>
+    <div class="noise-texture"></div>
+    <div class="grid-overlay"></div>
+  </div>
+
+  <!-- Main Content -->
+  <main class="main-container">
+    <!-- Top Bar with Pomodoro -->
+    <header class="top-bar">
+      <div class="logo-section" id="logo-section" title="Click to customize">
+        <img src="icons/icon48.png" alt="DevTab" class="logo-icon-img" id="logo-icon-img">
+        <span class="logo-text" id="logo-text">DevTab</span>
+      </div>
+      
+      <!-- Pomodoro Timer -->
+      <div class="pomodoro-container" id="pomodoro-container">
+        <div class="pomodoro-display" id="pomodoro-display">
+          <div class="pomodoro-time" id="pomodoro-time">25:00</div>
+          <div class="pomodoro-label" id="pomodoro-label">Focus Time</div>
+        </div>
+        <div class="pomodoro-controls">
+          <button class="pomo-btn" id="pomo-start" title="Start/Pause">
+            <svg viewBox="0 0 24 24" fill="currentColor" id="pomo-start-icon">
+              <path d="M8 5v14l11-7z"/>
+            </svg>
+          </button>
+          <button class="pomo-btn" id="pomo-reset" title="Reset">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/>
+              <path d="M3 3v5h5"/>
+            </svg>
+          </button>
+          <button class="pomo-btn" id="pomo-settings" title="Settings">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="3"/>
+              <path d="M12 1v2m0 18v2M4.22 4.22l1.42 1.42m12.72 12.72l1.42 1.42M1 12h2m18 0h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+            </svg>
+          </button>
+        </div>
+        <div class="pomodoro-progress">
+          <div class="pomodoro-progress-bar" id="pomodoro-progress-bar"></div>
+        </div>
+      </div>
+
+      <button class="settings-btn" id="open-settings" title="Settings">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
+          <circle cx="12" cy="12" r="3"/>
+        </svg>
+      </button>
+    </header>
+
+    <!-- Clock Section -->
+    <section class="clock-section">
+      <div class="clock-container">
+        <div class="clock-time" id="clock-time">
+          <span class="clock-hours" id="clock-hours">00</span>
+          <span class="clock-separator">:</span>
+          <span class="clock-minutes" id="clock-minutes">00</span>
+          <span class="clock-seconds" id="clock-seconds">:00</span>
+          <span class="clock-ampm" id="clock-ampm"></span>
+        </div>
+        <div class="clock-date" id="clock-date">Loading...</div>
+      </div>
+    </section>
+
+    <!-- Search Section -->
+    <section class="search-section">
+      <form class="search-form" id="search-form">
+        <div class="search-wrapper">
+          <div class="search-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="11" cy="11" r="8"/>
+              <path d="m21 21-4.35-4.35"/>
+            </svg>
+          </div>
+          <input 
+            type="text" 
+            class="search-input" 
+            id="search-input" 
+            placeholder="Search the web or enter URL..."
+            autocomplete="off"
+            spellcheck="false"
+          >
+          <div class="search-shortcuts">
+            <kbd>⌘</kbd><kbd>K</kbd>
+          </div>
+        </div>
+        <div class="search-engines" id="search-engines">
+          <button type="button" class="engine-btn active" data-engine="google" title="Google">
+            <svg viewBox="0 0 24 24"><path fill="currentColor" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="currentColor" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="currentColor" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="currentColor" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+          </button>
+          <button type="button" class="engine-btn" data-engine="claude" title="Claude">
+            <svg viewBox="0 0 24 24"><path fill="currentColor" d="M4.709 15.955l4.72-2.647.08-.23-.08-.128-4.72-2.75A2.98 2.98 0 0 1 3 7.59C3 5.601 4.6 4 6.59 4a2.98 2.98 0 0 1 2.61 1.709l2.75 4.72.128.08.23-.08 2.647-4.72A2.98 2.98 0 0 1 17.41 4C19.4 4 21 5.601 21 7.59a2.98 2.98 0 0 1-1.709 2.61l-4.72 2.75-.08.128.08.23 4.72 2.647A2.98 2.98 0 0 1 21 18.41c0 1.989-1.601 3.59-3.59 3.59a2.98 2.98 0 0 1-2.455-1.709l-2.647-4.72-.23-.08-.128.08-2.75 4.72A2.98 2.98 0 0 1 6.59 22C4.6 22 3 20.399 3 18.41a2.98 2.98 0 0 1 1.709-2.455z"/></svg>
+          </button>
+          <button type="button" class="engine-btn" data-engine="chatgpt" title="ChatGPT">
+            <svg viewBox="0 0 24 24"><path fill="currentColor" d="M22.282 9.821a5.985 5.985 0 0 0-.516-4.91 6.046 6.046 0 0 0-6.51-2.9A6.065 6.065 0 0 0 4.981 4.18a5.985 5.985 0 0 0-3.998 2.9 6.046 6.046 0 0 0 .743 7.097 5.98 5.98 0 0 0 .51 4.911 6.051 6.051 0 0 0 6.515 2.9A5.985 5.985 0 0 0 13.26 24a6.056 6.056 0 0 0 5.772-4.206 5.99 5.99 0 0 0 3.997-2.9 6.056 6.056 0 0 0-.747-7.073zM13.26 22.43a4.476 4.476 0 0 1-2.876-1.04l.141-.081 4.779-2.758a.795.795 0 0 0 .392-.681v-6.737l2.02 1.168a.071.071 0 0 1 .038.052v5.583a4.504 4.504 0 0 1-4.494 4.494zM3.6 18.304a4.47 4.47 0 0 1-.535-3.014l.142.085 4.783 2.759a.771.771 0 0 0 .78 0l5.843-3.369v2.332a.08.08 0 0 1-.033.062L9.74 19.95a4.5 4.5 0 0 1-6.14-1.646zM2.34 7.896a4.485 4.485 0 0 1 2.366-1.973V11.6a.766.766 0 0 0 .388.676l5.815 3.355-2.02 1.168a.076.076 0 0 1-.071 0l-4.83-2.786A4.504 4.504 0 0 1 2.34 7.872zm16.597 3.855l-5.833-3.387L15.119 7.2a.076.076 0 0 1 .071 0l4.83 2.791a4.494 4.494 0 0 1-.676 8.105v-5.678a.79.79 0 0 0-.407-.667zm2.01-3.023l-.141-.085-4.774-2.782a.776.776 0 0 0-.785 0L9.409 9.23V6.897a.066.066 0 0 1 .028-.061l4.83-2.787a4.5 4.5 0 0 1 6.68 4.66zm-12.64 4.135l-2.02-1.164a.08.08 0 0 1-.038-.057V6.075a4.5 4.5 0 0 1 7.375-3.453l-.142.08L8.704 5.46a.795.795 0 0 0-.393.681zm1.097-2.365l2.602-1.5 2.607 1.5v2.999l-2.597 1.5-2.607-1.5z"/></svg>
+          </button>
+          <button type="button" class="engine-btn" data-engine="stackoverflow" title="Stack Overflow">
+            <svg viewBox="0 0 24 24"><path fill="currentColor" d="M15 21h-10v-2h10v2zm6-11.665l-1.621-9.335-1.993.346 1.62 9.335 1.994-.346zm-5.964 6.937l-9.746-.975-.186 2.016 9.755.879.177-1.92zm.538-2.587l-9.276-2.608-.526 1.954 9.306 2.5.496-1.846zm1.204-2.413l-8.297-4.864-1.029 1.743 8.298 4.865 1.028-1.744zm1.866-1.467l-5.339-7.829-1.672 1.14 5.339 7.829 1.672-1.14zm-2.644 4.195v8h-12v-8h-2v10h16v-10h-2z"/></svg>
+          </button>
+        </div>
+      </form>
+    </section>
+
+    <!-- GitHub Contributions Section -->
+    <section class="github-section" id="github-section">
+      <div class="github-widget" id="github-widget">
+        <div class="github-header">
+          <div class="github-title-row">
+            <svg class="github-icon" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
+            </svg>
+            <span class="github-title">Contributions</span>
+            <a class="github-profile-link" id="github-profile-link" href="#" target="_blank">
+              <span id="github-username-display">@username</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M7 17L17 7M17 7H7M17 7V17"/>
+              </svg>
+            </a>
+          </div>
+        </div>
+        <div class="github-chart-container" id="github-chart-container">
+          <div class="github-loading">
+            <div class="loading-dots">
+              <span></span><span></span><span></span>
+            </div>
+            <p>Loading contributions...</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Quick Links Section -->
+    <section class="quicklinks-section">
+      <div class="quicklinks-container" id="quicklinks-container">
+        <!-- Links will be dynamically generated -->
+      </div>
+      <button class="add-link-btn" id="add-link-btn" title="Add Quick Link">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M12 5v14m-7-7h14"/>
+        </svg>
+      </button>
+    </section>
+  </main>
+
+  <!-- Settings Modal -->
+  <div class="modal-overlay" id="settings-modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Settings</h2>
+        <button class="modal-close" id="close-settings">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M18 6L6 18M6 6l12 12"/>
+          </svg>
+        </button>
+      </div>
+      
+      <div class="modal-body">
+        <!-- GitHub Settings -->
+        <div class="settings-group">
+          <h3>
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
+            </svg>
+            GitHub
+          </h3>
+          <div class="setting-item">
+            <label for="github-username">Username</label>
+            <input type="text" id="github-username" placeholder="Enter your GitHub username">
+          </div>
+          <div class="setting-item">
+            <label for="graph-theme">Graph Theme</label>
+            <select id="graph-theme">
+              <option value="github">GitHub Green</option>
+              <option value="halloween">Halloween</option>
+              <option value="teal">Teal</option>
+              <option value="blue">Blue</option>
+              <option value="purple">Purple</option>
+              <option value="pink">Pink</option>
+              <option value="red">Red</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Appearance Settings -->
+        <div class="settings-group">
+          <h3>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="5"/>
+              <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+            </svg>
+            Appearance
+          </h3>
+          
+          <!-- Branding -->
+          <div class="setting-item">
+            <label for="brand-name">Tab Name</label>
+            <input type="text" id="brand-name" placeholder="DevTab" maxlength="20">
+          </div>
+          
+          <hr style="border: none; border-top: 1px solid var(--border-color); margin: 16px 0;">
+          
+          <!-- Visibility Toggles -->
+          <div class="setting-item checkbox-item">
+            <label for="show-pomodoro">
+              <input type="checkbox" id="show-pomodoro" checked>
+              <span class="checkbox-custom"></span>
+              Show Pomodoro Timer
+            </label>
+          </div>
+          <div class="setting-item checkbox-item">
+            <label for="show-quicklinks">
+              <input type="checkbox" id="show-quicklinks" checked>
+              <span class="checkbox-custom"></span>
+              Show Quick Links
+            </label>
+          </div>
+          
+          <hr style="border: none; border-top: 1px solid var(--border-color); margin: 16px 0;">
+          
+          <div class="setting-item">
+            <label for="app-theme">Theme</label>
+            <select id="app-theme">
+              <option value="dark">Dark</option>
+              <option value="light">Light</option>
+              <option value="system">System Default</option>
+            </select>
+          </div>
+          <div class="setting-item">
+            <label for="font-family">Font</label>
+            <select id="font-family">
+              <option value="JetBrains Mono">JetBrains Mono</option>
+              <option value="Fira Code">Fira Code</option>
+              <option value="Source Code Pro">Source Code Pro</option>
+              <option value="IBM Plex Mono">IBM Plex Mono</option>
+              <option value="Space Grotesk">Space Grotesk</option>
+              <option value="Inter">Inter</option>
+            </select>
+          </div>
+          <div class="setting-item">
+            <label for="background-url">Background Image URL</label>
+            <input type="text" id="background-url" placeholder="https://example.com/image.jpg">
+            <small class="setting-hint">Paste any image URL or use a GitHub raw link</small>
+          </div>
+          <div class="setting-item">
+            <label for="background-blur">Background Blur: <span id="blur-value">8px</span></label>
+            <input type="range" id="background-blur" min="0" max="30" value="8">
+          </div>
+          <div class="setting-item">
+            <label for="background-brightness">Background Brightness: <span id="brightness-value">0.4</span></label>
+            <input type="range" id="background-brightness" min="0" max="100" value="40">
+          </div>
+        </div>
+
+        <!-- Clock Settings -->
+        <div class="settings-group">
+          <h3>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"/>
+              <path d="M12 6v6l4 2"/>
+            </svg>
+            Clock
+          </h3>
+          <div class="setting-item">
+            <label for="clock-format">Format</label>
+            <select id="clock-format">
+              <option value="24">24 Hour</option>
+              <option value="12">12 Hour</option>
+            </select>
+          </div>
+          <div class="setting-item checkbox-item">
+            <label for="show-seconds">
+              <input type="checkbox" id="show-seconds">
+              <span class="checkbox-custom"></span>
+              Show Seconds
+            </label>
+          </div>
+        </div>
+
+        <!-- Pomodoro Settings -->
+        <div class="settings-group">
+          <h3>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"/>
+              <path d="M12 6v6l4 2"/>
+            </svg>
+            Pomodoro Timer
+          </h3>
+          <div class="setting-item">
+            <label for="pomo-focus">Focus Duration (minutes)</label>
+            <input type="number" id="pomo-focus" min="1" max="120" value="25">
+          </div>
+          <div class="setting-item">
+            <label for="pomo-break">Break Duration (minutes)</label>
+            <input type="number" id="pomo-break" min="1" max="60" value="5">
+          </div>
+          <div class="setting-item">
+            <label for="pomo-long-break">Long Break Duration (minutes)</label>
+            <input type="number" id="pomo-long-break" min="1" max="120" value="15">
+          </div>
+          <div class="setting-item checkbox-item">
+            <label for="pomo-sounds">
+              <input type="checkbox" id="pomo-sounds" checked>
+              <span class="checkbox-custom"></span>
+              Enable Timer Sounds
+            </label>
+            <small class="setting-hint" style="margin-left: 28px;">Play sounds on start, pause, and completion</small>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn-secondary" id="reset-settings">Reset to Defaults</button>
+        <button class="btn-primary" id="save-settings">Save Changes</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Add Link Modal -->
+  <div class="modal-overlay" id="add-link-modal">
+    <div class="modal-content modal-small">
+      <div class="modal-header">
+        <h2 id="link-modal-title">Add Quick Link</h2>
+        <button class="modal-close" id="close-add-link">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M18 6L6 18M6 6l12 12"/>
+          </svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="setting-item">
+          <label for="link-name">Name</label>
+          <input type="text" id="link-name" placeholder="GitHub">
+        </div>
+        <div class="setting-item">
+          <label for="link-url">URL</label>
+          <input type="text" id="link-url" placeholder="https://github.com">
+        </div>
+        <div class="setting-item">
+          <label for="link-icon">Custom Icon URL (optional)</label>
+          <input type="text" id="link-icon" placeholder="Leave empty for auto-detect">
+          <small class="setting-hint">Leave blank to auto-fetch website icon, or paste an image URL</small>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-danger" id="delete-link" style="display: none;">Delete</button>
+        <button class="btn-primary" id="save-link">Save</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Pomodoro Settings Modal -->
+  <div class="modal-overlay" id="pomo-modal">
+    <div class="modal-content modal-small">
+      <div class="modal-header">
+        <h2>Pomodoro Mode</h2>
+        <button class="modal-close" id="close-pomo-modal">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M18 6L6 18M6 6l12 12"/>
+          </svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="pomo-mode-selector">
+          <button class="pomo-mode-btn active" data-mode="focus">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+            </svg>
+            Focus
+          </button>
+          <button class="pomo-mode-btn" data-mode="break">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M11 9h2v2h-2zm0 4h2v2h-2zm-2-8h6v2H9zm10 0v14c0 1.1-.9 2-2 2H7c-1.1 0-2-.9-2-2V5c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2zm-2 0H7v14h10V5z"/>
+            </svg>
+            Break
+          </button>
+          <button class="pomo-mode-btn" data-mode="longbreak">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+            </svg>
+            Long Break
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="newtab.js"></script>
+</body>
+</html>
